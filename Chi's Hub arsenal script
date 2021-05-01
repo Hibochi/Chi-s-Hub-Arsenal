@@ -1012,6 +1012,7 @@
                         local aimbotEnabled
                         local aimbotKey = Enum.KeyCode.T
                         local aimbotPart = "Head"
+                        local silentAimPart2 = "Head"
 
                         local Client
                         for i,v in pairs(getgc(true)) do
@@ -1209,7 +1210,7 @@
                             end
                         end)
         
-                        local triggerBotBtn = aimSection:addToggle("Trigger Bot",nil, function(value)
+                        local triggerBotBtn = aimSection:addToggle("Trigger Bot",nil function(value)
                                 triggerBoton = value
                                 pcall(function()
                                     RunService.RenderStepped:Connect(function()
@@ -1382,7 +1383,7 @@
                                             if onScreen then
                                                 local ray = Ray.new(
                                                     Camera.CFrame.p,
-                                                    (v.Character["Head"].Position-Camera.CFrame.p).unit*500
+                                                    (v.Character[silentAimPart2].Position-Camera.CFrame.p).unit*500
                                                 )
                                                 local ignore = {
                                                     LocalPlayer.Character,
@@ -1422,9 +1423,9 @@
                                 if UserInputService:IsMouseButtonPressed(0) and features["silentaim"] and Players.LocalPlayer.Character and Players.LocalPlayer.Character:FindFirstChild("Humanoid") and Players.LocalPlayer.Character.Humanoid.Health > 0 then
                                     local enemy = getnearest()
                                     if enemy and enemy.Character and enemy.Character:FindFirstChild("Humanoid") and enemy.Character.Humanoid.Health > 0 then                
-                                        local vector, onScreen = Camera:WorldToScreenPoint(enemy.Character["Head"].Position)
+                                        local vector, onScreen = Camera:WorldToScreenPoint(enemy.Character[silentAimPart2].Position)
                                         local magnitude = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(vector.X, vector.Y)).magnitude
-                                        target = workspace[enemy.Name]["Head"].Position
+                                        target = workspace[enemy.Name][silentAimPart2].Position
                                     end
                                 else
                                     target = nil
@@ -1457,7 +1458,7 @@
                         rageSection:addDropdown("Aim Part", {"Head", "Body", "Random"}, function(value)
                             silentAimPart = value
                             if silentAimPart == "Body" then 
-                                silentAimPart = "LowerTorso" 
+                                silentAimPart = "UpperTorso" 
                             end 
 
                             if silentAimPart == "Head" then 
@@ -2460,6 +2461,15 @@
                         customizeSettings:addToggle("Tracer team check", nil, function(value)
                             _G.TeamCheck = value -- Use True or False to toggle TeamCheck
                         end)
+
+                        customizeSettings:addDropdown("Silent Aim Part(the without toggle)", {"Head", "Body"}, function(value)
+                            silentAimPart2 = value
+
+                            if silentAimPart2 == "Body" then
+                                silentAimPart2 = "UpperTorso"
+                            end
+                        end)
+
                         --Keybind page
                         local key = venyx:addPage("Keybinds", 5012544693)
                         local keybind = key:addSection("Keybinds")
