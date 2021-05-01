@@ -1458,7 +1458,7 @@
                         rageSection:addDropdown("Aim Part", {"Head", "Body", "Random"}, function(value)
                             silentAimPart = value
                             if silentAimPart == "Body" then 
-                                silentAimPart = "UpperTorso" 
+                                silentAimPart = "LowerTorso" 
                             end 
 
                             if silentAimPart == "Head" then 
