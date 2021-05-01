@@ -1210,7 +1210,7 @@
                             end
                         end)
         
-                        local triggerBotBtn = aimSection:addToggle("Trigger Bot",nil function(value)
+                        local triggerBotBtn = aimSection:addToggle("Trigger Bot", nil,function(value)
                                 triggerBoton = value
                                 pcall(function()
                                     RunService.RenderStepped:Connect(function()
