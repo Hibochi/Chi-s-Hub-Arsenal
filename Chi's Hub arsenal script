@@ -7,6 +7,8 @@
 
                 -- Instances:
 
+                repeat wait() until game:IsLoaded()
+
                 local LoginFrame = Instance.new("ScreenGui")
                 local Login = Instance.new("Frame")
                 local label = Instance.new("TextLabel")
@@ -1376,25 +1378,18 @@
                             local UserInputService = game:GetService("UserInputService")
                             local target = false
                             local RunService = game:GetService("RunService")
-                            local aimpart 
                             
                             local features = {
                                 silentaim = true;
                                 fov = 50;
                             }
+
                             pcall(function()
-                            if silentAimon2 then
+                            if silentAimon2 then 
                                 function getnearest()
                                     local nearestmagnitude = math.huge
                                     local nearestenemy = nil
                                     local vector = nil
-                                    local random = math.random(1,2)
-                                    if silentAimPart2 == "Random" then
-                                        if random == 1 then aimpart = "Head"
-                                        elseif random == 2 then aimpart = "Body" end
-                                    else
-                                        aimpart = silentAimPart2
-                                    end
                                     for i,v in next, Players:GetChildren() do
                                         if v ~= Players.LocalPlayer then
                                             if v.Character and  v.Character:FindFirstChild("HumanoidRootPart") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
@@ -1402,7 +1397,7 @@
                                                 if onScreen then
                                                     local ray = Ray.new(
                                                         Camera.CFrame.p,
-                                                        (v.Character[aimpart].Position-Camera.CFrame.p).unit*500
+                                                        (v.Character[silentAimPart2].Position-Camera.CFrame.p).unit*500
                                                     )
                                                     local ignore = {
                                                         LocalPlayer.Character,
@@ -1439,26 +1434,25 @@
                             
                             
                                 RunService:BindToRenderStep("silentaim",1,function()
-                                    if UserInputService:IsMouseButtonPressed(0) and features["silentaim"] and Players.LocalPlayer.Character and Players.LocalPlayer.Character:FindFirstChild("Humanoid") and Players.LocalPlayer.Character.Humanoid.Health > 0 then
+                                    if UserInputService:IsMouseButtonPressed(0) and features["silentaim"] and Players.LocalPlayer.Character and Players.LocalPlayer.Character:FindFirstChild("Humanoid") and Players.LocalPlayer.Character.Humanoid.Health > 0 and silentAimon2 then
                                         local enemy = getnearest()
                                         if enemy and enemy.Character and enemy.Character:FindFirstChild("Humanoid") and enemy.Character.Humanoid.Health > 0 then                
-                                            local vector, onScreen = Camera:WorldToScreenPoint(enemy.Character[aimpart].Position)
+                                            local vector, onScreen = Camera:WorldToScreenPoint(enemy.Character[silentAimPart2].Position)
                                             local magnitude = (Vector2.new(mouse.X, mouse.Y) - Vector2.new(vector.X, vector.Y)).magnitude
-                                            target = workspace[enemy.Name][aimpart].Position
+                                            target = workspace[enemy.Name][silentAimPart2].Position
                                         end
                                     else
                                         target = nil
                                     end
                                 end) 
-                            end 
+                            end
                         end)
-        
-                            if features.silentaim == true then
+                            if silentAimon2 then
                                 venyx:Notify("Silent Aim FOV ", features.fov)
                             end
                         end)
 
-                        rageSection:addDropdown("Silent Aim Prefered Mode", {"Shoot the enemy closest to your crosshair", "Shoot the enemy closest to your character"}, function(value)
+                        rageSection:addDropdown("Silent Aim (1) Prefered Mode", {"Shoot the enemy closest to your crosshair", "Shoot the enemy closest to your character"}, function(value)
                             if value == "Shoot the enemy closest to your crosshair" then 
                                 preferedSilentAimMode = "getClosestToMouse" 
                             elseif value == "Shoot the enemy closest to your character" then 
@@ -1476,7 +1470,7 @@
                             end
                         end)
 
-                        rageSection:addDropdown("Silent Aim 1 Part", {"Head", "Body", "Random"}, function(value)
+                        rageSection:addDropdown("Silent Aim (1) Part", {"Head", "Body", "Random"}, function(value)
                             silentAimPart = value
                             if silentAimPart == "Body" then 
                                 silentAimPart = "LowerTorso" 
@@ -2483,7 +2477,7 @@
                             _G.TeamCheck = value -- Use True or False to toggle TeamCheck
                         end)
 
-                        customizeSettings:addDropdown("Silent Aim 2 Part", {"Head", "Body", "Random"}, function(value)
+                        customizeSettings:addDropdown("Silent Aim 2 Part", {"Head", "Body"}, function(value)
                             silentAimPart2 = value
 
                             if silentAimPart2 == "Body" then
@@ -2494,8 +2488,6 @@
                                 venyx:Notify("Info:", "Silent Aim (2) Part Head")
                             elseif silentAimPart2 == "Body" then
                                 venyx:Notify("Info:", "Silent Aim (2) Part Body")
-                            else
-                                venyx:Notify("Info:", "Silent Aim (2) Part Random")
                             end
                         end)
 
