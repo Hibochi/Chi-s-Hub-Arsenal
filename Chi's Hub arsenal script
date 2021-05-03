@@ -1300,7 +1300,7 @@
                         local rageSection = rage:addSection("Rage")
                         local ReallyRageSelection = rage:addSection("Really Rage")
         
-                        local silentAimBtn = rageSection:addToggle("Silent Aim (1)", function(value)
+                        local silentAimBtn = rageSection:addToggle("Silent Aim (1)", nil, function(value)
                             silentAimon = value
                             pcall(function()
                                 if silentAimon then
@@ -1366,7 +1366,7 @@
                             end
                         end)
 
-                        rageSection:addToggle("Silent Aim (2)", function(value)
+                        rageSection:addToggle("Silent Aim (2)", nil, function(value)
                             silentAimon2 = value
                             local Players = game:GetService("Players")
                             local LocalPlayer = Players.LocalPlayer
