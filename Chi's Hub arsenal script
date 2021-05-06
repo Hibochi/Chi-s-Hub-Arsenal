@@ -999,6 +999,8 @@
                         local tracersColor = Color3.fromRGB(255, 80, 60)
                         local playerNamesColor = Color3.fromRGB( 0, 255, 0)
                         local boxesColor = Color3.fromRGB(255, 0, 0)
+                        local friendlyColor = Color3.fromRGB(0, 255, 0)
+                        local enemyColor = Color3.fromRGB(255 ,0 ,0)
                         local useDefaultTeamColors = false
 
                         local showDistanceOn
@@ -1011,8 +1013,15 @@
                         local boxesOn
                         local boxesPaused = false
 
+                        local killAll
+                        local bhop = false
+                        local minVel 
+                        local maxVel
+                        local Acceleration
+
                         local aimbotOn
                         local aimbotEnabled
+                        local aimKey = "T"
                         local aimbotKey = Enum.KeyCode.T
                         local aimbotPart = "Head"
                         local silentAimPart2 = "Head"
@@ -1053,11 +1062,8 @@
 
                         pcall(function()
                             UIS.InputBegan:Connect(function(UserInput)
-                                if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.E then
-                                    noclipon = not noclipon
-                                end
                                 if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == aimbotKey and aimbotOn then
-                                    aimbotEnabled = true
+                                    aimbotEnabled = not aimbotEnabled
                                     spawn(function()
                                         while wait() do
                                             local target = WorldToScreen(getClosestToMouse().Character[aimbotPart].Position)
@@ -1067,12 +1073,6 @@
                                     end)
                                 end
                             end)
-                        end)
-
-                        UIS.InputEnded:Connect(function(UserInput)
-                            if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == aimbotKey and aimbotOn then
-                                aimbotEnabled = false
-                            end
                         end)
                         
                         function isSameTeam(Player, Player2)
@@ -1170,6 +1170,8 @@
                         }
                         -- Credits page
                         local credit = venyx:addPage("Credits", 5012544693)
+                        local greetSection = credit:addSection("Welcome "..game:GetService("Players").LocalPlayer.Name.." Thank you for using chi's Hub")
+
                         local CreditSection = credit:addSection("Credits")
                         local infoSection = credit:addSection("Info")
                         
@@ -1190,7 +1192,11 @@
                         infoSection:addButton("If you cant shoot thats mean you", function()
                             
                         end)
-                        infoSection:addButton("turn on the silent aim (2) and wallbang", function()
+                        infoSection:addButton("turn on the silent aim (2) and wallbang at the same time", function()
+                        
+                        end)
+
+                        infoSection:addButton("Re-Join to fix it!", function()
                         
                         end)
         
@@ -1198,7 +1204,8 @@
                         local page = venyx:addPage("Local", 5012544693)
                         local aimSection = page:addSection("AIM")
                         
-                        aimSection:addToggle("Aimbot", nil, function(value)
+                        aimSection:addToggle("Aimbot["..aimKey.."]", nil, function(value)
+                            wait(.5)
                             aimbotOn = value
 
                             if aimbotOn then 
@@ -1295,6 +1302,29 @@
 
                         local noclipButton = OtherSection:addToggle("Noclip[E]", nil, function(value)
                             noclipon = value
+
+                            local noclip = false
+
+                            game:GetService('RunService').Stepped:connect(function()
+                                if noclip then
+                                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                                    end
+                                end)
+                                plr = game.Players.LocalPlayer
+                                mouse = plr:GetMouse()
+                                mouse.KeyDown:connect(function(key)
+                                
+                                if key == "e" and noclipon then
+                                    noclip = not noclip
+                                        game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                                    end
+                                end)
+                            
+                            if noclipon then
+                                venyx:Notify("Info", tostring(noclipon))
+                            else
+                                venyx:Notify("Info", tostring(noclipon)) 
+                            end
                         end)
                         
                         -- Rage page
@@ -1448,7 +1478,7 @@
                             end
                         end)
                             if silentAimon2 then
-                                venyx:Notify("Silent Aim FOV ", features.fov)
+                                venyx:Notify("Info ", "Silent Aim FOV: "..features.fov)
                             end
                         end)
 
@@ -1542,94 +1572,100 @@
                             end
                         end)
         
-                        ReallyRageSelection:addToggle("Kill All",nil, function(state)
-                            for i,v in pairs(Players:GetPlayers()) do
-                                if v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Status.Alive.Value and not isSameTeam(LocalPlayer, v) and v ~= LocalPlayer then
-                                    local Target = v.Character
-                                    local ActiveGun = ReplicatedStorage.Weapons:FindFirstChild(LocalPlayer.NRPBS.EquippedTool.Value)
-                                    local Distance = (LocalPlayer.Character.Head.Position - Target.Head.Position).magnitude
-                        
-                                    if ActiveGun:FindFirstChild("Projectile") then
-                                        local HRP = LocalPlayer.Character.HumanoidRootPart
-                                        HRP.CFrame = Target.HumanoidRootPart.CFrame
-                                        ReplicatedStorage.Events.ApplyGun:FireServer(ReplicatedStorage.Weapons.Knife, false)
-                                        for i = 0, 4 do ReplicatedStorage.Events.HitPart:FireServer(
-                                            Target.Head,
-                                            Target.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
-                                            ActiveGun.Name,
-                                            2,
-                                            Distance,
-                                            false,
-                                            true,
-                                            false,
-                                            1,
-                                            false,
-                                            ActiveGun.FireRate.Value,
-                                            ActiveGun.ReloadTime.Value,
-                                            ActiveGun.Ammo.Value,
-                                            ActiveGun.StoredAmmo.Value,
-                                            ActiveGun.Bullets.Value,
-                                            ActiveGun.EquipTime.Value,
-                                            ActiveGun.RecoilControl.Value,
-                                            ActiveGun.Auto.Value,
-                                            ActiveGun["Speed%"].Value,
-                                            wkspc.DistributedTime.Value
-                                        )
-                                        end
-                                        ReplicatedStorage.Events.ApplyGun:FireServer(ActiveGun, false)
-                                    elseif ActiveGun.Name == "Knife" or ActiveGun.Name == "Golden Knife" or ActiveGun.Name == "Minigun" or ActiveGun.Name == "Candy Cane Miniguns" then
-                                        local HRP = LocalPlayer.Character.HumanoidRootPart
-                                        HRP.CFrame = Target.HumanoidRootPart.CFrame
-                                        for i = 0, 4 do ReplicatedStorage.Events.HitPart:FireServer(
-                                            Target.Head,
-                                            Target.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
-                                            ActiveGun.Name,
-                                            2,
-                                            Distance,
-                                            false,
-                                            true,
-                                            false,
-                                            1,
-                                            false,
-                                            ActiveGun.FireRate.Value,
-                                            ActiveGun.ReloadTime.Value,
-                                            ActiveGun.Ammo.Value,
-                                            ActiveGun.StoredAmmo.Value,
-                                            ActiveGun.Bullets.Value,
-                                            ActiveGun.EquipTime.Value,
-                                            ActiveGun.RecoilControl.Value,
-                                            ActiveGun.Auto.Value,
-                                            ActiveGun["Speed%"].Value,
-                                            wkspc.DistributedTime.Value
-                                        )
-                                        end
-                                    else
-                                        for i = 0, 4 do ReplicatedStorage.Events.HitPart:FireServer(
-                                            Target.Head,
-                                            Target.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
-                                            ActiveGun.Name,
-                                            2,
-                                            Distance,
-                                            false,
-                                            true,
-                                            false,
-                                            1,
-                                            false,
-                                            ActiveGun.FireRate.Value,
-                                            ActiveGun.ReloadTime.Value,
-                                            ActiveGun.Ammo.Value,
-                                            ActiveGun.StoredAmmo.Value,
-                                            ActiveGun.Bullets.Value,
-                                            ActiveGun.EquipTime.Value,
-                                            ActiveGun.RecoilControl.Value,
-                                            ActiveGun.Auto.Value,
-                                            ActiveGun["Speed%"].Value,
-                                            wkspc.DistributedTime.Value
-                                        )
+                        ReallyRageSelection:addToggle("Kill All[Z]",nil, function(state)
+                            killAll = state
+
+                            game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(k)
+                                if k == "Z" and killAll then
+                                    for i,v in pairs(Players:GetPlayers()) do
+                                        if v.Character and v.Character:FindFirstChild("HumanoidRootPart") and v.Status.Alive.Value and not isSameTeam(LocalPlayer, v) and v ~= LocalPlayer then
+                                            local Target = v.Character
+                                            local ActiveGun = ReplicatedStorage.Weapons:FindFirstChild(LocalPlayer.NRPBS.EquippedTool.Value)
+                                            local Distance = (LocalPlayer.Character.Head.Position - Target.Head.Position).magnitude
+                                
+                                            if ActiveGun:FindFirstChild("Projectile") then
+                                                local HRP = LocalPlayer.Character.HumanoidRootPart
+                                                HRP.CFrame = Target.HumanoidRootPart.CFrame
+                                                ReplicatedStorage.Events.ApplyGun:FireServer(ReplicatedStorage.Weapons.Knife, false)
+                                                for i = 0, 4 do ReplicatedStorage.Events.HitPart:FireServer(
+                                                    Target.Head,
+                                                    Target.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
+                                                    ActiveGun.Name,
+                                                    2,
+                                                    Distance,
+                                                    false,
+                                                    true,
+                                                    false,
+                                                    1,
+                                                    false,
+                                                    ActiveGun.FireRate.Value,
+                                                    ActiveGun.ReloadTime.Value,
+                                                    ActiveGun.Ammo.Value,
+                                                    ActiveGun.StoredAmmo.Value,
+                                                    ActiveGun.Bullets.Value,
+                                                    ActiveGun.EquipTime.Value,
+                                                    ActiveGun.RecoilControl.Value,
+                                                    ActiveGun.Auto.Value,
+                                                    ActiveGun["Speed%"].Value,
+                                                    wkspc.DistributedTime.Value
+                                                )
+                                                end
+                                                ReplicatedStorage.Events.ApplyGun:FireServer(ActiveGun, false)
+                                            elseif ActiveGun.Name == "Knife" or ActiveGun.Name == "Golden Knife" or ActiveGun.Name == "Minigun" or ActiveGun.Name == "Candy Cane Miniguns" then
+                                                local HRP = LocalPlayer.Character.HumanoidRootPart
+                                                HRP.CFrame = Target.HumanoidRootPart.CFrame
+                                                for i = 0, 4 do ReplicatedStorage.Events.HitPart:FireServer(
+                                                    Target.Head,
+                                                    Target.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
+                                                    ActiveGun.Name,
+                                                    2,
+                                                    Distance,
+                                                    false,
+                                                    true,
+                                                    false,
+                                                    1,
+                                                    false,
+                                                    ActiveGun.FireRate.Value,
+                                                    ActiveGun.ReloadTime.Value,
+                                                    ActiveGun.Ammo.Value,
+                                                    ActiveGun.StoredAmmo.Value,
+                                                    ActiveGun.Bullets.Value,
+                                                    ActiveGun.EquipTime.Value,
+                                                    ActiveGun.RecoilControl.Value,
+                                                    ActiveGun.Auto.Value,
+                                                    ActiveGun["Speed%"].Value,
+                                                    wkspc.DistributedTime.Value
+                                                )
+                                                end
+                                            else
+                                                for i = 0, 4 do ReplicatedStorage.Events.HitPart:FireServer(
+                                                    Target.Head,
+                                                    Target.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
+                                                    ActiveGun.Name,
+                                                    2,
+                                                    Distance,
+                                                    false,
+                                                    true,
+                                                    false,
+                                                    1,
+                                                    false,
+                                                    ActiveGun.FireRate.Value,
+                                                    ActiveGun.ReloadTime.Value,
+                                                    ActiveGun.Ammo.Value,
+                                                    ActiveGun.StoredAmmo.Value,
+                                                    ActiveGun.Bullets.Value,
+                                                    ActiveGun.EquipTime.Value,
+                                                    ActiveGun.RecoilControl.Value,
+                                                    ActiveGun.Auto.Value,
+                                                    ActiveGun["Speed%"].Value,
+                                                    wkspc.DistributedTime.Value
+                                                )
+                                                end
+                                            end
                                         end
                                     end
                                 end
-                            end
+                            end)
                         end)
         
                         -- Visual page
@@ -1727,7 +1763,11 @@
                             for i,v in pairs(game.Players:GetChildren()) do
                                 local Tracer = Drawing.new("Line")
                                 Tracer.Visible = false
-                                Tracer.Color = tracersColor
+                                if useDefaultTeamColors then
+                                    Tracer.Color = v.TeamColor.Color
+                                else
+                                    Tracer.Color = tracersColor
+                                end
                                 Tracer.Thickness = 1
                                 Tracer.Transparency = 1
                     
@@ -1761,7 +1801,11 @@
                             game.Players.PlayerAdded:Connect(function(v)
                                 local Tracer = Drawing.new("Line")
                                 Tracer.Visible = false
-                                Tracer.Color = tracersColor
+                                if useDefaultTeamColors then
+                                    Tracer.Color = v.TeamColor.Color
+                                else
+                                    Tracer.Color = tracersColor
+                                end
                                 Tracer.Thickness = 1
                                 Tracer.Transparency = 1
                     
@@ -2055,7 +2099,7 @@
                                 SkeletonTorso.Visible = false
                                 SkeletonTorso.From = Vector2.new(0, 0)
                                 SkeletonTorso.To = Vector2.new(200, 200)
-                                SkeletonTorso.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonTorso.Color = enemyColor
                                 SkeletonTorso.Thickness = 2
                                 SkeletonTorso.Transparency = 1
                             
@@ -2063,7 +2107,7 @@
                                 SkeletonHead.Visible = false
                                 SkeletonHead.From = Vector2.new(0, 0)
                                 SkeletonHead.To = Vector2.new(200, 200)
-                                SkeletonHead.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonHead.Color = enemyColor
                                 SkeletonHead.Thickness = 2
                                 SkeletonHead.Transparency = 1
                             
@@ -2071,7 +2115,7 @@
                                 SkeletonLeftLeg.Visible = false
                                 SkeletonLeftLeg.From = Vector2.new(0, 0)
                                 SkeletonLeftLeg.To = Vector2.new(200, 200)
-                                SkeletonLeftLeg.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonLeftLeg.Color = enemyColor
                                 SkeletonLeftLeg.Thickness = 2
                                 SkeletonLeftLeg.Transparency = 1
                             
@@ -2079,7 +2123,7 @@
                                 SkeletonRightLeg.Visible = false
                                 SkeletonRightLeg.From = Vector2.new(0, 0)
                                 SkeletonRightLeg.To = Vector2.new(200, 200)
-                                SkeletonRightLeg.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonRightLeg.Color = enemyColor
                                 SkeletonRightLeg.Thickness = 2
                                 SkeletonRightLeg.Transparency = 1
                             
@@ -2087,7 +2131,7 @@
                                 SkeletonLeftArm.Visible = false
                                 SkeletonLeftArm.From = Vector2.new(0, 0)
                                 SkeletonLeftArm.To = Vector2.new(200, 200)
-                                SkeletonLeftArm.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonLeftArm.Color = enemyColor
                                 SkeletonLeftArm.Thickness = 2
                                 SkeletonLeftArm.Transparency = 1
                             
@@ -2095,7 +2139,7 @@
                                 SkeletonRightArm.Visible = false
                                 SkeletonRightArm.From = Vector2.new(0, 0)
                                 SkeletonRightArm.To = Vector2.new(200, 200)
-                                SkeletonRightArm.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonRightArm.Color = enemyColor
                                 SkeletonRightArm.Thickness = 2
                                 SkeletonRightArm.Transparency = 1
                             
@@ -2134,19 +2178,19 @@
                                                 SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
                             
                                                 if v.TeamColor == plr.TeamColor then
-                                                    SkeletonTorso.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonHead.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonLeftArm.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonLeftLeg.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonRightArm.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonRightLeg.Color = Color3.fromRGB(0, 255, 0)
+                                                    SkeletonTorso.Color = friendlyColor
+                                                    SkeletonHead.Color = friendlyColor
+                                                    SkeletonLeftArm.Color = friendlyColor
+                                                    SkeletonLeftLeg.Color = friendlyColor
+                                                    SkeletonRightArm.Color = friendlyColor
+                                                    SkeletonRightLeg.Color = friendlyColor
                                                 else 
-                                                    SkeletonTorso.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonHead.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonLeftArm.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonLeftLeg.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonRightArm.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonRightLeg.Color = Color3.fromRGB(255, 0, 0)
+                                                    SkeletonTorso.Color = enemyColor
+                                                    SkeletonHead.Color = enemyColor
+                                                    SkeletonLeftArm.Color = enemyColor
+                                                    SkeletonLeftLeg.Color = enemyColor
+                                                    SkeletonRightArm.Color = enemyColor
+                                                    SkeletonRightLeg.Color = enemyColor
                                                 end
                             
                                                 SkeletonTorso.Visible = true
@@ -2185,7 +2229,7 @@
                                 SkeletonTorso.Visible = false
                                 SkeletonTorso.From = Vector2.new(0, 0)
                                 SkeletonTorso.To = Vector2.new(200, 200)
-                                SkeletonTorso.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonTorso.Color = enemyColor
                                 SkeletonTorso.Thickness = 2
                                 SkeletonTorso.Transparency = 1
                             
@@ -2193,7 +2237,7 @@
                                 SkeletonHead.Visible = false
                                 SkeletonHead.From = Vector2.new(0, 0)
                                 SkeletonHead.To = Vector2.new(200, 200)
-                                SkeletonHead.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonHead.Color = enemyColor
                                 SkeletonHead.Thickness = 2
                                 SkeletonHead.Transparency = 1
                             
@@ -2201,7 +2245,7 @@
                                 SkeletonLeftLeg.Visible = false
                                 SkeletonLeftLeg.From = Vector2.new(0, 0)
                                 SkeletonLeftLeg.To = Vector2.new(200, 200)
-                                SkeletonLeftLeg.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonLeftLeg.Color = enemyColor
                                 SkeletonLeftLeg.Thickness = 2
                                 SkeletonLeftLeg.Transparency = 1
                             
@@ -2209,7 +2253,7 @@
                                 SkeletonRightLeg.Visible = false
                                 SkeletonRightLeg.From = Vector2.new(0, 0)
                                 SkeletonRightLeg.To = Vector2.new(200, 200)
-                                SkeletonRightLeg.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonRightLeg.Color = enemyColor
                                 SkeletonRightLeg.Thickness = 2
                                 SkeletonRightLeg.Transparency = 1
                             
@@ -2217,7 +2261,7 @@
                                 SkeletonLeftArm.Visible = false
                                 SkeletonLeftArm.From = Vector2.new(0, 0)
                                 SkeletonLeftArm.To = Vector2.new(200, 200)
-                                SkeletonLeftArm.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonLeftArm.Color = enemyColor
                                 SkeletonLeftArm.Thickness = 2
                                 SkeletonLeftArm.Transparency = 1
                             
@@ -2225,7 +2269,7 @@
                                 SkeletonRightArm.Visible = false
                                 SkeletonRightArm.From = Vector2.new(0, 0)
                                 SkeletonRightArm.To = Vector2.new(200, 200)
-                                SkeletonRightArm.Color = Color3.fromRGB(255, 0, 0)
+                                SkeletonRightArm.Color = enemyColor
                                 SkeletonRightArm.Thickness = 2
                                 SkeletonRightArm.Transparency = 1
                             
@@ -2263,20 +2307,20 @@
                                                 SkeletonRightArm.From = Vector2.new(RightArm.X, RightArm.Y)
                                                 SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
                             
-                                                if newplr.TeamColor == plr.TeamColor then
-                                                    SkeletonTorso.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonHead.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonLeftArm.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonLeftLeg.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonRightArm.Color = Color3.fromRGB(0, 255, 0)
-                                                    SkeletonRightLeg.Color = Color3.fromRGB(0, 255, 0)
+                                                if v.TeamColor == plr.TeamColor then
+                                                    SkeletonTorso.Color = friendlyColor
+                                                    SkeletonHead.Color = friendlyColor
+                                                    SkeletonLeftArm.Color = friendlyColor
+                                                    SkeletonLeftLeg.Color = friendlyColor
+                                                    SkeletonRightArm.Color = friendlyColor
+                                                    SkeletonRightLeg.Color = friendlyColor
                                                 else 
-                                                    SkeletonTorso.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonHead.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonLeftArm.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonLeftLeg.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonRightArm.Color = Color3.fromRGB(255, 0, 0)
-                                                    SkeletonRightLeg.Color = Color3.fromRGB(255, 0, 0)
+                                                    SkeletonTorso.Color = enemyColor
+                                                    SkeletonHead.Color = enemyColor
+                                                    SkeletonLeftArm.Color = enemyColor
+                                                    SkeletonLeftLeg.Color = enemyColor
+                                                    SkeletonRightArm.Color = enemyColor
+                                                    SkeletonRightLeg.Color = enemyColor
                                                 end
                             
                                                 SkeletonTorso.Visible = true
@@ -2320,12 +2364,23 @@
                         colorsSection:addColorPicker("Tracers Color", Color3.fromRGB(255, 80, 60), function(value)
                             tracersColor = value
                         end)
+
                         colorsSection:addColorPicker("Player Names Color", Color3.fromRGB(0, 255, 0), function(value)
                             playerNamesColor = value
                         end)
+
                         colorsSection:addColorPicker("Boxes Color", Color3.fromRGB(255, 0, 0), function(value)
                             boxesColor = value
                         end)
+
+                        colorsSection:addColorPicker("Team Skeleton Color", Color3.fromRGB(0, 255, 0), function(value)
+                            friendlyColor = value
+                        end)
+
+                        colorsSection:addColorPicker("Enemy Skeleton Color", Color3.fromRGB(255, 0 , 0), function(value)
+                            enemyColor = value
+                        end)
+
                         colorsSection:addToggle("Use Default Team Colors", nil, function(value)
                             useDefaultTeamColors = value
                         end)
@@ -2501,8 +2556,6 @@
                             end, function()
                             print("Changed Keybind")
                         end)
-
-                        keybind:addKeybind("Aimbot Key", Enum.KeyCode.T, function() end, function(value) aimbotKey = value end)
                         
                         
                         -- Color page
@@ -2517,14 +2570,6 @@
                         
                         -- load
                         venyx:SelectPage(venyx.pages[1], true)
-
-                        spawn(function()
-                            pcall(function()
-                                RunService.RenderStepped:Connect(function()
-                                    if noclipon and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then LocalPlayer.Character.Humanoid:ChangeState(11) end
-                                end)
-                            end)
-                        end)
 
                         spawn(function()
                             pcall(function()
