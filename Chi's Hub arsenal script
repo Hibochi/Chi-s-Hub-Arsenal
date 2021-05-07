@@ -7,7 +7,19 @@
 
                 -- Instances:
 
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Info:";
+                    Text = "Waiting until game is loaded!";
+                    duration = 3;
+                    })
+
                 repeat wait() until game:IsLoaded()
+
+                game:GetService("StarterGui"):SetCore("SendNotification", {
+                    Title = "Info:";
+                    Text = "Game loaded!";
+                    duration = 2;
+                })
 
                 local LoginFrame = Instance.new("ScreenGui")
                 local Login = Instance.new("Frame")
