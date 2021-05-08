@@ -222,8 +222,9 @@
                         local misc = venyx:addPage("Misc", 5012544693)
                         local OtherSection = misc:addSection("Other")
         
-                        OtherSection:addToggle("Inf Jump", nil, function(value)
+                        OtherSection:addToggle("Flight", nil, function(value)
                             getgenv().inf = value
+                            _G.infinjump = false
                             local text = ""
         
                             if getgenv().inf then
@@ -231,23 +232,30 @@
                             else
                                 text = "Off"
                             end
-        
-                            local Player = game:GetService'Players'.LocalPlayer;
-                            local UIS = game:GetService'UserInputService';
-                             
-                            _G.JumpHeight = 32;
-                             
-                            function Action(Object, Function) if Object ~= nil then Function(Object); end end
-                             
-                            UIS.InputBegan:connect(function(UserInput)
-                                if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space and getgenv().inf then
-                                    Action(Player.Character.Humanoid, function(self)
-                                        if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
-                                            Action(self.Parent.HumanoidRootPart, function(self)
-                                                self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
-                                            end)
-                                        end
-                                    end)
+
+                            local Player = game:GetService("Players").LocalPlayer
+                            local Mouse = Player:GetMouse()
+                            Mouse.KeyDown:connect(function(k)
+                                if _G.infinjump and getgenv().inf then
+                                    if k:byte() == 32 then
+                                        Humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                                        Humanoid:ChangeState("Jumping")
+                                        wait(0.1)
+                                        Humanoid:ChangeState("Seated")
+                                    end
+                                end
+                            end)
+                        
+                            local Player = game:GetService("Players").LocalPlayer
+                            local Mouse = Player:GetMouse()
+                            Mouse.KeyDown:connect(function(k)
+                                k = k:lower()
+                                if k == "x" and getgenv().inf then
+                                    if _G.infinjump == true then
+                                        _G.infinjump = false
+                                    else
+                                        _G.infinjump = true
+                                    end
                                 end
                             end)
         
@@ -1304,8 +1312,9 @@
                         local misc = venyx:addPage("Misc", 5012544693)
                         local OtherSection = misc:addSection("Other")
         
-                        OtherSection:addToggle("Inf Jump", nil, function(value)
+                        OtherSection:addToggle("Inf Jump/Flight[X]", nil, function(value)
                             getgenv().inf = value
+                            _G.infinjump = false
                             local text = ""
         
                             if getgenv().inf then
@@ -1316,13 +1325,14 @@
         
                             local Player = game:GetService'Players'.LocalPlayer;
                             local UIS = game:GetService'UserInputService';
+                            local Mouse = Player:GetMouse()
                              
                             _G.JumpHeight = 32;
                              
                             function Action(Object, Function) if Object ~= nil then Function(Object); end end
                              
                             UIS.InputBegan:connect(function(UserInput)
-                                if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space and getgenv().inf then
+                                if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space and getgenv().inf and _G.infinjump then
                                     Action(Player.Character.Humanoid, function(self)
                                         if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
                                             Action(self.Parent.HumanoidRootPart, function(self)
@@ -1330,6 +1340,17 @@
                                             end)
                                         end
                                     end)
+                                end
+                            end)
+
+                            Mouse.KeyDown:connect(function(k)
+                                k = k:lower()
+                                if k == "x" and getgenv().inf then
+                                    if _G.infinjump == true then
+                                        _G.infinjump = false
+                                    else
+                                        _G.infinjump = true
+                                    end
                                 end
                             end)
         
@@ -1556,57 +1577,36 @@
                             end
                         end)
                         
-                        rageSection:addToggle("Wallbang", nil, function(state)
-        
+                        rageSection:addToggle("Wallbang[H]", nil, function(state)
+                            
                             getgenv().bang = state
                             local text = ""
-        
-                            if getgenv().bang then
+                            _G.Enable = false
+
+                            if _G.Enable or getgenv().bang then
                                 text = "On"
                             else
                                 text = "Off"
                             end
-        
-                            local cc = game.workspace.CurrentCamera
-                            local mouse = game.Players.LocalPlayer:GetMouse()
-                            function getClosestMouse(trg_part)
-                                local nearest = nil  
-                                local last = math.huge
-                                    while wait() do 
-                                        if not getgenv().bang then return end
-                                        for i,v in pairs(game.Players:GetPlayers()) do
-                                            if v ~= game.Players.LocalPlayer and game.Players.LocalPlayer.Character and v.Character and v.Character:FindFirstChild(trg_part) and v.TeamColor ~= game.Players.LocalPlayer.TeamColor then 
-                                                local ePos = cc:WorldToViewportPoint(v.Character[trg_part].Position)
-                                                local AccPos = Vector2.new(ePos.x, ePos.y)
-                                                local mousePos = Vector2.new(cc.ViewportSize.x / 2, cc.ViewportSize.y / 2)
-                                                local distance = (AccPos - mousePos).magnitude
-                                                if distance < last then
-                                                    last = distance
-                                                    nearest = v
-                                                end
-                                            end
-                                        end
-                                        if nearest ~= nil then
-                                            return nearest
-                                        end
+
+                            local MT = getrawmetatable(game)
+                            local OldIndex = MT.__index
+                            setreadonly(MT, false)
+                            MT.__index = newcclosure(function(A, B)
+                                if B == "Clips" then
+                                    if _G.Enable then
+                                        return workspace.Map
                                     end
                                 end
-        
-                            local gameMeta = getrawmetatable(game)
-                            setreadonly(gameMeta, false)
-                            local oldNamecall = gameMeta.__namecall
-                            gameMeta.__namecall = newcclosure(function(remote, ...)
-                                local arguments = {...}
-                                if tostring(remote) == 'HitPart' then
-                                    local getclose = getClosestMouse("Head")
-                                    arguments[1] = getclose.Character.Head
-                                    arguments[2] = getclose.Character.Head.Position
-                                    return remote.FireServer(remote, unpack(arguments))
+                                return OldIndex(A, B)
+                            end)
+                            game:GetService("UserInputService").InputBegan:Connect(function(Key, _)
+                                if not _ and Key.KeyCode == Enum.KeyCode.H and getgenv().bang then
+                                    _G.Enable = not _G.Enable
                                 end
-                                return oldNamecall(remote, ...)
                             end)
         
-                            if getgenv().bang then
+                            if _G.Enable or getgenv().bang then
                                 venyx:Notify("Info:", text)
                             else
                                 venyx:Notify("Info:", text)
