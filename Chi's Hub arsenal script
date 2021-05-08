@@ -1222,7 +1222,7 @@
                         local greetSection = credit:addSection("Welcome "..game:GetService("Players").LocalPlayer.Name.." thank you for using Chi's Hub v1.2")
 
                         local CreditSection = credit:addSection("Credits")
-                        local infoSection = credit:addSection("Info")
+                        local FFSection = credit:addSection("Fun Fact")
                         
                         CreditSection:addButton("Hibochi#5683 - Scripts", function()
                             setclipboard("Hibochi#5683 - Scripts")
@@ -1238,14 +1238,11 @@
                             venyx:Notify("Success", "Copied")
                         end)
 
-                        infoSection:addButton("If you cant shoot thats mean you", function()
-                            
-                        end)
-                        infoSection:addButton("turn on the silent aim (2) and wallbang at the same time", function()
+                        FFSection:addButton(""..game:GetService("Players").LocalPlayer.Name.." is handsome/beautiful", function()
                         
                         end)
 
-                        infoSection:addButton("Re-Join to fix it!", function()
+                        FFSection:addButton(""..game:GetService("Players").LocalPlayer.Name.." is so kind :)", function()
                         
                         end)
         
