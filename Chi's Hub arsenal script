@@ -177,9 +177,11 @@
                         local credit = venyx:addPage("Credits", 5012544693)
                         local welcomeSection = credit:addSection("Welcome "..game:GetService("Players").LocalPlayer.Name.. " thank you for using Chi's Hub v1.2")
                         local CreditSection = credit:addSection("Credits")
+                        local bugSection = credit:addSection("If you cant shoot just rejoin")
                         local sponsorSection = credit:addSection("Get PREMIUM to get all benefit and features and more quality")
                         local howtogetSection = credit:addSection("To get PREMIUM just DM Hibochi#5683")
                         local howtogetSection2 = credit:addSection("or just join disc and talk in general")
+
                         
                         CreditSection:addButton("Hibochi#5683 - Scripts", function()
                             setclipboard("Hibochi#5683 - Scripts")
@@ -230,7 +232,7 @@
                         local misc = venyx:addPage("Misc", 5012544693)
                         local OtherSection = misc:addSection("Other")
         
-                        OtherSection:addToggle("Flight", nil, function(value)
+                        OtherSection:addToggle("Flight[X]", nil, function(value)
                             getgenv().inf = value
                             _G.infinjump = false
                             local text = ""
@@ -279,7 +281,7 @@
                         local rage = venyx:addPage("Rage", 5012544693)
                         local rageSection = rage:addSection("Rage")
         
-                        rageSection:addToggle("Silent Aim", function(value)
+                        rageSection:addToggle("Silent Aim", nil, function(value)
                             silenaimon = value
                             local Players = game:GetService("Players")
                             local LocalPlayer = Players.LocalPlayer
