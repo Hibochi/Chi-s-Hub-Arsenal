@@ -1035,9 +1035,7 @@
                         local infAmmoon
                         local automaticOn
 
-                        local noBulletHoleson
-                        local noParticleson
-                        local noTrailson
+                        local keybindOn = false
 
                         local noclipon
                         local walkspeed = 23.32
@@ -1054,11 +1052,11 @@
                         local tracersOn
                         local espPaused = false
 
-                        local tracersColor = Color3.fromRGB(255, 80, 60)
-                        local playerNamesColor = Color3.fromRGB( 0, 255, 0)
-                        local boxesColor = Color3.fromRGB(255, 0, 0)
-                        local friendlyColor = Color3.fromRGB(0, 255, 0)
-                        local enemyColor = Color3.fromRGB(255 ,0 ,0)
+                        _G.tracersColor = Color3.fromRGB(255, 80, 60)
+                        _G.playerNamesColor = Color3.fromRGB( 0, 255, 0)
+                        _G.boxesColor = Color3.fromRGB(255, 0, 0)
+                        _G.friendlyColor = Color3.fromRGB(0, 255, 0)
+                        _G.enemyColor = Color3.fromRGB(255 ,0 ,0)
                         local updateTime = 1
                         local autoUpdate = false
                         local useDefaultTeamColors = false
@@ -1128,6 +1126,36 @@
                                             if not aimbotEnabled then return end
                                         end
                                     end)
+
+                                    if aimbotEnabled then
+                                        -- Instances:
+
+                                        local Keybind = Instance.new("TextLabel")
+                                        local UICorner = Instance.new("UICorner")
+
+                                        --Properties:
+
+                                        Keybind.Name = "aimbotOn"
+                                        Keybind.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList
+                                        Keybind.BackgroundColor3 = Color3.fromRGB(73, 255, 249)
+                                        Keybind.BorderSizePixel = 0
+                                        Keybind.Position = UDim2.new(0, 0, 4.33488339e-08, 0)
+                                        Keybind.Size = UDim2.new(1.00000012, 0, 0.0599173941, 0)
+                                        Keybind.Font = Enum.Font.Cartoon
+                                        Keybind.Text = "Aimbot[T]"
+                                        Keybind.TextColor3 = Color3.fromRGB(0, 0, 0)
+                                        Keybind.TextScaled = true
+                                        Keybind.TextSize = 14.000
+                                        Keybind.TextWrapped = true
+
+                                        UICorner.Parent = Keybind
+                                    else
+                                            for i, v in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList:GetChildren()) do
+                                                if v:IsA("TextLabel") and v.Name == "aimbotOn"then
+                                                    v:Destroy()
+                                                end
+                                            end
+                                    end
                                 end
                             end)
                         end)
@@ -1215,6 +1243,110 @@
                             end
                             return closestplayer
                          end
+
+                         
+
+                            -- Instances:
+
+                            local KeybindGui = Instance.new("ScreenGui")
+                            local Main = Instance.new("Frame")
+                            local Logo = Instance.new("TextLabel")
+                            local UICorner = Instance.new("UICorner")
+                            local ButtonList = Instance.new("ScrollingFrame")
+                            local UIListLayout = Instance.new("UIListLayout")
+
+                            --Properties:
+
+                            KeybindGui.Name = "KeybindGui"
+                            KeybindGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+                            KeybindGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+                            Main.Name = "Main"
+                            Main.Parent = KeybindGui
+                            Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                            Main.BackgroundTransparency = 1.000
+                            Main.BorderSizePixel = 0
+                            Main.Position = UDim2.new(0.0139794964, 0, 0.224598929, 0)
+                            Main.Size = UDim2.new(0.10717614, 0, 0.582887709, 0)
+                            Main.Visible = true
+                            Main.Active = true
+                            Main.Draggable = true
+
+                            Logo.Name = "Logo"
+                            Logo.Parent = Main
+                            Logo.BackgroundColor3 = Color3.fromRGB(41, 220, 255)
+                            Logo.Size = UDim2.new(1.0086956, 0, 0.165137619, 0)
+                            Logo.Font = Enum.Font.Cartoon
+                            Logo.Text = "Keybinds List"
+                            Logo.TextColor3 = Color3.fromRGB(0, 0, 0)
+                            Logo.TextScaled = true
+                            Logo.TextSize = 14.000
+                            Logo.TextWrapped = true
+
+                            UICorner.Parent = Logo
+
+                            ButtonList.Name = "ButtonList"
+                            ButtonList.Parent = Main
+                            ButtonList.Active = true
+                            ButtonList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                            ButtonList.BackgroundTransparency = 1.000
+                            ButtonList.BorderSizePixel = 0
+                            ButtonList.Position = UDim2.new(0, 0, 0.192660555, 0)
+                            ButtonList.Size = UDim2.new(1.0086956, 0, 0.80733943, 0)
+                            ButtonList.ScrollBarThickness = 0
+
+                            UIListLayout.Parent = ButtonList
+                            UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                            UIListLayout.Padding = UDim.new(0, 5)
+
+                            local KeybindGui = Instance.new("ScreenGui")
+                            local Main = Instance.new("Frame")
+                            local Logo = Instance.new("TextLabel")
+                            local UICorner = Instance.new("UICorner")
+                            local ButtonList = Instance.new("ScrollingFrame")
+                            local UIListLayout = Instance.new("UIListLayout")
+
+                            --Properties:
+
+                            KeybindGui.Name = "KeybindGui"
+                            KeybindGui.Parent = game.CoreGui
+                            KeybindGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+                            Main.Name = "Main"
+                            Main.Parent = KeybindGui
+                            Main.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                            Main.BackgroundTransparency = 1.000
+                            Main.BorderSizePixel = 0
+                            Main.Position = UDim2.new(0.0139794964, 0, 0.224598929, 0)
+                            Main.Size = UDim2.new(0, 115, 0, 218)
+                            Main.Visible = keybindOn
+
+                            Logo.Name = "Logo"
+                            Logo.Parent = Main
+                            Logo.BackgroundColor3 = Color3.fromRGB(41, 220, 255)
+                            Logo.Size = UDim2.new(0, 116, 0, 36)
+                            Logo.Font = Enum.Font.Cartoon
+                            Logo.Text = "Keybinds"
+                            Logo.TextColor3 = Color3.fromRGB(0, 0, 0)
+                            Logo.TextScaled = true
+                            Logo.TextSize = 14.000
+                            Logo.TextWrapped = true
+
+                            UICorner.Parent = Logo
+
+                            ButtonList.Name = "ButtonList"
+                            ButtonList.Parent = Main
+                            ButtonList.Active = true
+                            ButtonList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                            ButtonList.BackgroundTransparency = 1.000
+                            ButtonList.BorderSizePixel = 0
+                            ButtonList.Position = UDim2.new(0, 0, 0.192660555, 0)
+                            ButtonList.Size = UDim2.new(0, 116, 0, 176)
+                            ButtonList.ScrollBarThickness = 0
+
+                            UIListLayout.Parent = ButtonList
+                            UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                            UIListLayout.Padding = UDim.new(0, 5)
 
                         -- themes
                         local themes = {
@@ -1353,8 +1485,34 @@
                                 if k == "x" and getgenv().inf then
                                     if _G.infinjump == true then
                                         _G.infinjump = false
+                                        for i, v in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList:GetChildren()) do
+                                            if v:IsA("TextLabel") and v.Name == "infjumpOn" then
+                                                v:Destroy()
+                                            end
+                                        end
                                     else
                                         _G.infinjump = true
+                                            -- Instances:
+    
+                                            local Keybind = Instance.new("TextLabel")
+                                            local UICorner = Instance.new("UICorner")
+    
+                                            --Properties:
+    
+                                            Keybind.Name = "infjumpOn"
+                                            Keybind.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList
+                                            Keybind.BackgroundColor3 = Color3.fromRGB(73, 255, 249)
+                                            Keybind.BorderSizePixel = 0
+                                            Keybind.Position = UDim2.new(0, 0, 4.33488339e-08, 0)
+                                            Keybind.Size = UDim2.new(1.00000012, 0, 0.0599173941, 0)
+                                            Keybind.Font = Enum.Font.Cartoon
+                                            Keybind.Text = "Infjump/Flight[X]"
+                                            Keybind.TextColor3 = Color3.fromRGB(0, 0, 0)
+                                            Keybind.TextScaled = true
+                                            Keybind.TextSize = 14.000
+                                            Keybind.TextWrapped = true
+    
+                                            UICorner.Parent = Keybind
                                     end
                                 end
                             end)
@@ -1384,6 +1542,36 @@
                                 if key == "e" and noclipon then
                                     noclip = not noclip
                                         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+
+                                        if noclip then
+                                            -- Instances:
+    
+                                            local Keybind = Instance.new("TextLabel")
+                                            local UICorner = Instance.new("UICorner")
+    
+                                            --Properties:
+    
+                                            Keybind.Name = "noclipOn"
+                                            Keybind.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList
+                                            Keybind.BackgroundColor3 = Color3.fromRGB(73, 255, 249)
+                                            Keybind.BorderSizePixel = 0
+                                            Keybind.Position = UDim2.new(0, 0, 4.33488339e-08, 0)
+                                            Keybind.Size = UDim2.new(1.00000012, 0, 0.0599173941, 0)
+                                            Keybind.Font = Enum.Font.Cartoon
+                                            Keybind.Text = "Noclip[E]"
+                                            Keybind.TextColor3 = Color3.fromRGB(0, 0, 0)
+                                            Keybind.TextScaled = true
+                                            Keybind.TextSize = 14.000
+                                            Keybind.TextWrapped = true
+    
+                                            UICorner.Parent = Keybind
+                                        else
+                                                for i, v in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList:GetChildren()) do
+                                                    if v:IsA("TextLabel") and v.Name == "noclipOn"then
+                                                        v:Destroy()
+                                                    end
+                                                end
+                                        end
                                     end
                                 end)
                             
@@ -1392,6 +1580,35 @@
                             else
                                 venyx:Notify("Info", tostring(noclipon)) 
                             end
+                        end)
+
+                        OtherSection:addToggle("Kick when admin join", nil , function(v)
+                            getgenv().kick = v
+                            local text = ""
+        
+                            if getgenv().kick then
+                                text = "On"
+                            else
+                                text = "Off"
+                            end
+                            
+                            if getgenv().kick then
+                                venyx:Notify("Info:", text)
+                            else
+                                venyx:Notify("Info", text)
+                            end
+                            local admins = {
+                                1711686684,
+                                567558633
+                            }
+                                game.Players.PlayerAdded:Connect(function(plr)
+                                    for i, v in pairs(admins) do
+                                        if plr.UserId == v and getgenv().kick then
+                                            game.Players.LocalPlayer:Kick("\n Reason: Admin just joined your game, run!")
+                                        end
+                                    end
+                                end)
+
                         end)
                         
                         -- Rage page
@@ -1608,6 +1825,36 @@
                             game:GetService("UserInputService").InputBegan:Connect(function(Key, _)
                                 if not _ and Key.KeyCode == Enum.KeyCode.H and getgenv().bang then
                                     _G.Enable = not _G.Enable
+
+                                    if _G.Enable then
+                                        -- Instances:
+
+                                        local Keybind = Instance.new("TextLabel")
+                                        local UICorner = Instance.new("UICorner")
+
+                                        --Properties:
+
+                                        Keybind.Name = "Wallbang"
+                                        Keybind.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList
+                                        Keybind.BackgroundColor3 = Color3.fromRGB(73, 255, 249)
+                                        Keybind.BorderSizePixel = 0
+                                        Keybind.Position = UDim2.new(0, 0, 4.33488339e-08, 0)
+                                        Keybind.Size = UDim2.new(1.00000012, 0, 0.0599173941, 0)
+                                        Keybind.Font = Enum.Font.Cartoon
+                                        Keybind.Text = "Wallbang[H]"
+                                        Keybind.TextColor3 = Color3.fromRGB(0, 0, 0)
+                                        Keybind.TextScaled = true
+                                        Keybind.TextSize = 14.000
+                                        Keybind.TextWrapped = true
+
+                                        UICorner.Parent = Keybind
+                                    else
+                                            for i, v in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList:GetChildren()) do
+                                                if v:IsA("TextLabel") and v.Name == "Wallbang"then
+                                                    v:Destroy()
+                                                end
+                                            end
+                                    end
                                 end
                             end)
         
@@ -1824,7 +2071,7 @@
                                 if useDefaultTeamColors then
                                     Tracer.Color = v.TeamColor.Color
                                 else
-                                    Tracer.Color = tracersColor
+                                    Tracer.Color = _G.tracersColor
                                 end
                                 Tracer.Thickness = 1
                                 Tracer.Transparency = 1
@@ -1862,7 +2109,7 @@
                                 if useDefaultTeamColors then
                                     Tracer.Color = v.TeamColor.Color
                                 else
-                                    Tracer.Color = tracersColor
+                                    Tracer.Color = _G.tracersColor
                                 end
                                 Tracer.Thickness = 1
                                 Tracer.Transparency = 1
@@ -2157,7 +2404,7 @@
                                 SkeletonTorso.Visible = false
                                 SkeletonTorso.From = Vector2.new(0, 0)
                                 SkeletonTorso.To = Vector2.new(200, 200)
-                                SkeletonTorso.Color = enemyColor
+                                SkeletonTorso.Color = _G.enemyColor
                                 SkeletonTorso.Thickness = 2
                                 SkeletonTorso.Transparency = 1
                             
@@ -2165,7 +2412,7 @@
                                 SkeletonHead.Visible = false
                                 SkeletonHead.From = Vector2.new(0, 0)
                                 SkeletonHead.To = Vector2.new(200, 200)
-                                SkeletonHead.Color = enemyColor
+                                SkeletonHead.Color = _G.enemyColor
                                 SkeletonHead.Thickness = 2
                                 SkeletonHead.Transparency = 1
                             
@@ -2173,7 +2420,7 @@
                                 SkeletonLeftLeg.Visible = false
                                 SkeletonLeftLeg.From = Vector2.new(0, 0)
                                 SkeletonLeftLeg.To = Vector2.new(200, 200)
-                                SkeletonLeftLeg.Color = enemyColor
+                                SkeletonLeftLeg.Color = _G.enemyColor
                                 SkeletonLeftLeg.Thickness = 2
                                 SkeletonLeftLeg.Transparency = 1
                             
@@ -2181,7 +2428,7 @@
                                 SkeletonRightLeg.Visible = false
                                 SkeletonRightLeg.From = Vector2.new(0, 0)
                                 SkeletonRightLeg.To = Vector2.new(200, 200)
-                                SkeletonRightLeg.Color = enemyColor
+                                SkeletonRightLeg.Color = _G.enemyColor
                                 SkeletonRightLeg.Thickness = 2
                                 SkeletonRightLeg.Transparency = 1
                             
@@ -2189,7 +2436,7 @@
                                 SkeletonLeftArm.Visible = false
                                 SkeletonLeftArm.From = Vector2.new(0, 0)
                                 SkeletonLeftArm.To = Vector2.new(200, 200)
-                                SkeletonLeftArm.Color = enemyColor
+                                SkeletonLeftArm.Color = _G.enemyColor
                                 SkeletonLeftArm.Thickness = 2
                                 SkeletonLeftArm.Transparency = 1
                             
@@ -2197,7 +2444,7 @@
                                 SkeletonRightArm.Visible = false
                                 SkeletonRightArm.From = Vector2.new(0, 0)
                                 SkeletonRightArm.To = Vector2.new(200, 200)
-                                SkeletonRightArm.Color = enemyColor
+                                SkeletonRightArm.Color = _G.enemyColor
                                 SkeletonRightArm.Thickness = 2
                                 SkeletonRightArm.Transparency = 1
                             
@@ -2236,19 +2483,19 @@
                                                 SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
                             
                                                 if v.TeamColor == plr.TeamColor then
-                                                    SkeletonTorso.Color = friendlyColor
-                                                    SkeletonHead.Color = friendlyColor
-                                                    SkeletonLeftArm.Color = friendlyColor
-                                                    SkeletonLeftLeg.Color = friendlyColor
-                                                    SkeletonRightArm.Color = friendlyColor
-                                                    SkeletonRightLeg.Color = friendlyColor
+                                                    SkeletonTorso.Color = _G.friendlyColor
+                                                    SkeletonHead.Color = _G.friendlyColor
+                                                    SkeletonLeftArm.Color = _G.friendlyColor
+                                                    SkeletonLeftLeg.Color = _G.friendlyColor
+                                                    SkeletonRightArm.Color = _G.friendlyColor
+                                                    SkeletonRightLeg.Color = _G.friendlyColor
                                                 else 
-                                                    SkeletonTorso.Color = enemyColor
-                                                    SkeletonHead.Color = enemyColor
-                                                    SkeletonLeftArm.Color = enemyColor
-                                                    SkeletonLeftLeg.Color = enemyColor
-                                                    SkeletonRightArm.Color = enemyColor
-                                                    SkeletonRightLeg.Color = enemyColor
+                                                    SkeletonTorso.Color = _G.enemyColor
+                                                    SkeletonHead.Color = _G.enemyColor
+                                                    SkeletonLeftArm.Color = _G.enemyColor
+                                                    SkeletonLeftLeg.Color = _G.enemyColor
+                                                    SkeletonRightArm.Color = _G.enemyColor
+                                                    SkeletonRightLeg.Color = _G.enemyColor
                                                 end
                             
                                                 SkeletonTorso.Visible = true
@@ -2287,7 +2534,7 @@
                                 SkeletonTorso.Visible = false
                                 SkeletonTorso.From = Vector2.new(0, 0)
                                 SkeletonTorso.To = Vector2.new(200, 200)
-                                SkeletonTorso.Color = enemyColor
+                                SkeletonTorso.Color = _G.enemyColor
                                 SkeletonTorso.Thickness = 2
                                 SkeletonTorso.Transparency = 1
                             
@@ -2295,7 +2542,7 @@
                                 SkeletonHead.Visible = false
                                 SkeletonHead.From = Vector2.new(0, 0)
                                 SkeletonHead.To = Vector2.new(200, 200)
-                                SkeletonHead.Color = enemyColor
+                                SkeletonHead.Color = _G.enemyColor
                                 SkeletonHead.Thickness = 2
                                 SkeletonHead.Transparency = 1
                             
@@ -2303,7 +2550,7 @@
                                 SkeletonLeftLeg.Visible = false
                                 SkeletonLeftLeg.From = Vector2.new(0, 0)
                                 SkeletonLeftLeg.To = Vector2.new(200, 200)
-                                SkeletonLeftLeg.Color = enemyColor
+                                SkeletonLeftLeg.Color = _G.enemyColor
                                 SkeletonLeftLeg.Thickness = 2
                                 SkeletonLeftLeg.Transparency = 1
                             
@@ -2311,7 +2558,7 @@
                                 SkeletonRightLeg.Visible = false
                                 SkeletonRightLeg.From = Vector2.new(0, 0)
                                 SkeletonRightLeg.To = Vector2.new(200, 200)
-                                SkeletonRightLeg.Color = enemyColor
+                                SkeletonRightLeg.Color = _G.enemyColor
                                 SkeletonRightLeg.Thickness = 2
                                 SkeletonRightLeg.Transparency = 1
                             
@@ -2319,7 +2566,7 @@
                                 SkeletonLeftArm.Visible = false
                                 SkeletonLeftArm.From = Vector2.new(0, 0)
                                 SkeletonLeftArm.To = Vector2.new(200, 200)
-                                SkeletonLeftArm.Color = enemyColor
+                                SkeletonLeftArm.Color = _G.enemyColor
                                 SkeletonLeftArm.Thickness = 2
                                 SkeletonLeftArm.Transparency = 1
                             
@@ -2327,7 +2574,7 @@
                                 SkeletonRightArm.Visible = false
                                 SkeletonRightArm.From = Vector2.new(0, 0)
                                 SkeletonRightArm.To = Vector2.new(200, 200)
-                                SkeletonRightArm.Color = enemyColor
+                                SkeletonRightArm.Color = _G.enemyColor
                                 SkeletonRightArm.Thickness = 2
                                 SkeletonRightArm.Transparency = 1
                             
@@ -2366,19 +2613,19 @@
                                                 SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
                             
                                                 if v.TeamColor == plr.TeamColor then
-                                                    SkeletonTorso.Color = friendlyColor
-                                                    SkeletonHead.Color = friendlyColor
-                                                    SkeletonLeftArm.Color = friendlyColor
-                                                    SkeletonLeftLeg.Color = friendlyColor
-                                                    SkeletonRightArm.Color = friendlyColor
-                                                    SkeletonRightLeg.Color = friendlyColor
+                                                    SkeletonTorso.Color = _G.friendlyColor
+                                                    SkeletonHead.Color = _G.friendlyColor
+                                                    SkeletonLeftArm.Color = _G.friendlyColor
+                                                    SkeletonLeftLeg.Color = _G.friendlyColor
+                                                    SkeletonRightArm.Color = _G.friendlyColor
+                                                    SkeletonRightLeg.Color = _G.friendlyColor
                                                 else 
-                                                    SkeletonTorso.Color = enemyColor
-                                                    SkeletonHead.Color = enemyColor
-                                                    SkeletonLeftArm.Color = enemyColor
-                                                    SkeletonLeftLeg.Color = enemyColor
-                                                    SkeletonRightArm.Color = enemyColor
-                                                    SkeletonRightLeg.Color = enemyColor
+                                                    SkeletonTorso.Color = _G.enemyColor
+                                                    SkeletonHead.Color = _G.enemyColor
+                                                    SkeletonLeftArm.Color = _G.enemyColor
+                                                    SkeletonLeftLeg.Color = _G.enemyColor
+                                                    SkeletonRightArm.Color = _G.enemyColor
+                                                    SkeletonRightLeg.Color = _G.enemyColor
                                                 end
                             
                                                 SkeletonTorso.Visible = true
