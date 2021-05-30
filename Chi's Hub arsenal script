@@ -330,7 +330,6 @@
                                     return nearestenemy
                                 end
                                 
-                                
                                 local meta = getrawmetatable(game)
                                 setreadonly(meta, false)
                                 local oldNamecall = meta.__namecall
@@ -1129,7 +1128,7 @@
                                         end
                                     end)
 
-                                    if aimbotEnabled then
+                                    if aimbotEnabled and aimbotOn then
                                         -- Instances:
 
                                         local Keybind = Instance.new("TextLabel")
@@ -1545,7 +1544,7 @@
                                     noclip = not noclip
                                         game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 
-                                        if noclip then
+                                        if noclip and noclipon then
                                             -- Instances:
     
                                             local Keybind = Instance.new("TextLabel")
@@ -1567,7 +1566,7 @@
                                             Keybind.TextWrapped = true
     
                                             UICorner.Parent = Keybind
-                                        else
+                                        else 
                                                 for i, v in pairs(game.Players.LocalPlayer:WaitForChild("PlayerGui"):FindFirstChild("KeybindGui").Main.ButtonList:GetChildren()) do
                                                     if v:IsA("TextLabel") and v.Name == "noclipOn"then
                                                         v:Destroy()
@@ -1828,7 +1827,7 @@
                                 if not _ and Key.KeyCode == Enum.KeyCode.H and getgenv().bang then
                                     _G.Enable = not _G.Enable
 
-                                    if _G.Enable then
+                                    if _G.Enable and getgenv().bang then
                                         -- Instances:
 
                                         local Keybind = Instance.new("TextLabel")
@@ -2073,7 +2072,7 @@
                                 if useDefaultTeamColors then
                                     Tracer.Color = v.TeamColor.Color
                                 else
-                                    Tracer.Color = _G.tracersColor
+                                    Tracer.Color = tracersColor
                                 end
                                 Tracer.Thickness = 1
                                 Tracer.Transparency = 1
@@ -2111,7 +2110,7 @@
                                 if useDefaultTeamColors then
                                     Tracer.Color = v.TeamColor.Color
                                 else
-                                    Tracer.Color = _G.tracersColor
+                                    Tracer.Color = tracersColor
                                 end
                                 Tracer.Thickness = 1
                                 Tracer.Transparency = 1
@@ -2406,7 +2405,7 @@
                                 SkeletonTorso.Visible = false
                                 SkeletonTorso.From = Vector2.new(0, 0)
                                 SkeletonTorso.To = Vector2.new(200, 200)
-                                SkeletonTorso.Color = _G.enemyColor
+                                SkeletonTorso.Color = enemyColor
                                 SkeletonTorso.Thickness = 2
                                 SkeletonTorso.Transparency = 1
                             
@@ -2414,7 +2413,7 @@
                                 SkeletonHead.Visible = false
                                 SkeletonHead.From = Vector2.new(0, 0)
                                 SkeletonHead.To = Vector2.new(200, 200)
-                                SkeletonHead.Color = _G.enemyColor
+                                SkeletonHead.Color = enemyColor
                                 SkeletonHead.Thickness = 2
                                 SkeletonHead.Transparency = 1
                             
@@ -2422,7 +2421,7 @@
                                 SkeletonLeftLeg.Visible = false
                                 SkeletonLeftLeg.From = Vector2.new(0, 0)
                                 SkeletonLeftLeg.To = Vector2.new(200, 200)
-                                SkeletonLeftLeg.Color = _G.enemyColor
+                                SkeletonLeftLeg.Color = enemyColor
                                 SkeletonLeftLeg.Thickness = 2
                                 SkeletonLeftLeg.Transparency = 1
                             
@@ -2430,7 +2429,7 @@
                                 SkeletonRightLeg.Visible = false
                                 SkeletonRightLeg.From = Vector2.new(0, 0)
                                 SkeletonRightLeg.To = Vector2.new(200, 200)
-                                SkeletonRightLeg.Color = _G.enemyColor
+                                SkeletonRightLeg.Color = enemyColor
                                 SkeletonRightLeg.Thickness = 2
                                 SkeletonRightLeg.Transparency = 1
                             
@@ -2438,7 +2437,7 @@
                                 SkeletonLeftArm.Visible = false
                                 SkeletonLeftArm.From = Vector2.new(0, 0)
                                 SkeletonLeftArm.To = Vector2.new(200, 200)
-                                SkeletonLeftArm.Color = _G.enemyColor
+                                SkeletonLeftArm.Color = enemyColor
                                 SkeletonLeftArm.Thickness = 2
                                 SkeletonLeftArm.Transparency = 1
                             
@@ -2446,7 +2445,7 @@
                                 SkeletonRightArm.Visible = false
                                 SkeletonRightArm.From = Vector2.new(0, 0)
                                 SkeletonRightArm.To = Vector2.new(200, 200)
-                                SkeletonRightArm.Color = _G.enemyColor
+                                SkeletonRightArm.Color = enemyColor
                                 SkeletonRightArm.Thickness = 2
                                 SkeletonRightArm.Transparency = 1
                             
@@ -2485,19 +2484,19 @@
                                                 SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
                             
                                                 if v.TeamColor == plr.TeamColor then
-                                                    SkeletonTorso.Color = _G.friendlyColor
-                                                    SkeletonHead.Color = _G.friendlyColor
-                                                    SkeletonLeftArm.Color = _G.friendlyColor
-                                                    SkeletonLeftLeg.Color = _G.friendlyColor
-                                                    SkeletonRightArm.Color = _G.friendlyColor
-                                                    SkeletonRightLeg.Color = _G.friendlyColor
+                                                    SkeletonTorso.Color = friendlyColor
+                                                    SkeletonHead.Color = friendlyColor
+                                                    SkeletonLeftArm.Color = friendlyColor
+                                                    SkeletonLeftLeg.Color = friendlyColor
+                                                    SkeletonRightArm.Color = friendlyColor
+                                                    SkeletonRightLeg.Color = friendlyColor
                                                 else 
-                                                    SkeletonTorso.Color = _G.enemyColor
-                                                    SkeletonHead.Color = _G.enemyColor
-                                                    SkeletonLeftArm.Color = _G.enemyColor
-                                                    SkeletonLeftLeg.Color = _G.enemyColor
-                                                    SkeletonRightArm.Color = _G.enemyColor
-                                                    SkeletonRightLeg.Color = _G.enemyColor
+                                                    SkeletonTorso.Color = enemyColor
+                                                    SkeletonHead.Color = enemyColor
+                                                    SkeletonLeftArm.Color = enemyColor
+                                                    SkeletonLeftLeg.Color = enemyColor
+                                                    SkeletonRightArm.Color = enemyColor
+                                                    SkeletonRightLeg.Color = enemyColor
                                                 end
                             
                                                 SkeletonTorso.Visible = true
@@ -2536,7 +2535,7 @@
                                 SkeletonTorso.Visible = false
                                 SkeletonTorso.From = Vector2.new(0, 0)
                                 SkeletonTorso.To = Vector2.new(200, 200)
-                                SkeletonTorso.Color = _G.enemyColor
+                                SkeletonTorso.Color = enemyColor
                                 SkeletonTorso.Thickness = 2
                                 SkeletonTorso.Transparency = 1
                             
@@ -2544,7 +2543,7 @@
                                 SkeletonHead.Visible = false
                                 SkeletonHead.From = Vector2.new(0, 0)
                                 SkeletonHead.To = Vector2.new(200, 200)
-                                SkeletonHead.Color = _G.enemyColor
+                                SkeletonHead.Color = enemyColor
                                 SkeletonHead.Thickness = 2
                                 SkeletonHead.Transparency = 1
                             
@@ -2552,7 +2551,7 @@
                                 SkeletonLeftLeg.Visible = false
                                 SkeletonLeftLeg.From = Vector2.new(0, 0)
                                 SkeletonLeftLeg.To = Vector2.new(200, 200)
-                                SkeletonLeftLeg.Color = _G.enemyColor
+                                SkeletonLeftLeg.Color = enemyColor
                                 SkeletonLeftLeg.Thickness = 2
                                 SkeletonLeftLeg.Transparency = 1
                             
@@ -2560,7 +2559,7 @@
                                 SkeletonRightLeg.Visible = false
                                 SkeletonRightLeg.From = Vector2.new(0, 0)
                                 SkeletonRightLeg.To = Vector2.new(200, 200)
-                                SkeletonRightLeg.Color = _G.enemyColor
+                                SkeletonRightLeg.Color = enemyColor
                                 SkeletonRightLeg.Thickness = 2
                                 SkeletonRightLeg.Transparency = 1
                             
@@ -2568,7 +2567,7 @@
                                 SkeletonLeftArm.Visible = false
                                 SkeletonLeftArm.From = Vector2.new(0, 0)
                                 SkeletonLeftArm.To = Vector2.new(200, 200)
-                                SkeletonLeftArm.Color = _G.enemyColor
+                                SkeletonLeftArm.Color = enemyColor
                                 SkeletonLeftArm.Thickness = 2
                                 SkeletonLeftArm.Transparency = 1
                             
@@ -2576,7 +2575,7 @@
                                 SkeletonRightArm.Visible = false
                                 SkeletonRightArm.From = Vector2.new(0, 0)
                                 SkeletonRightArm.To = Vector2.new(200, 200)
-                                SkeletonRightArm.Color = _G.enemyColor
+                                SkeletonRightArm.Color = enemyColor
                                 SkeletonRightArm.Thickness = 2
                                 SkeletonRightArm.Transparency = 1
                             
@@ -2615,19 +2614,19 @@
                                                 SkeletonRightArm.To = Vector2.new(UpperTorso.X, UpperTorso.Y)
                             
                                                 if v.TeamColor == plr.TeamColor then
-                                                    SkeletonTorso.Color = _G.friendlyColor
-                                                    SkeletonHead.Color = _G.friendlyColor
-                                                    SkeletonLeftArm.Color = _G.friendlyColor
-                                                    SkeletonLeftLeg.Color = _G.friendlyColor
-                                                    SkeletonRightArm.Color = _G.friendlyColor
-                                                    SkeletonRightLeg.Color = _G.friendlyColor
+                                                    SkeletonTorso.Color = friendlyColor
+                                                    SkeletonHead.Color = friendlyColor
+                                                    SkeletonLeftArm.Color = friendlyColor
+                                                    SkeletonLeftLeg.Color = friendlyColor
+                                                    SkeletonRightArm.Color = friendlyColor
+                                                    SkeletonRightLeg.Color = friendlyColor
                                                 else 
-                                                    SkeletonTorso.Color = _G.enemyColor
-                                                    SkeletonHead.Color = _G.enemyColor
-                                                    SkeletonLeftArm.Color = _G.enemyColor
-                                                    SkeletonLeftLeg.Color = _G.enemyColor
-                                                    SkeletonRightArm.Color = _G.enemyColor
-                                                    SkeletonRightLeg.Color = _G.enemyColor
+                                                    SkeletonTorso.Color = enemyColor
+                                                    SkeletonHead.Color = enemyColor
+                                                    SkeletonLeftArm.Color = enemyColor
+                                                    SkeletonLeftLeg.Color = enemyColor
+                                                    SkeletonRightArm.Color = enemyColor
+                                                    SkeletonRightLeg.Color = enemyColor
                                                 end
                             
                                                 SkeletonTorso.Visible = true
