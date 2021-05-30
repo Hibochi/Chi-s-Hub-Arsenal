@@ -1028,6 +1028,8 @@
                         end
 
                         --Varbs
+                        _G.version = "1.2"
+
                         local triggerBoton
 
                         local noSpreadon
@@ -1360,7 +1362,7 @@
                         }
                         -- Credits page
                         local credit = venyx:addPage("Credits", 5012544693)
-                        local greetSection = credit:addSection("Welcome "..game:GetService("Players").LocalPlayer.Name.." thank you for using Chi's Hub v1.2")
+                        local greetSection = credit:addSection("Welcome "..game:GetService("Players").LocalPlayer.Name.." thank you for using Chi's Hub v".._G.version)
 
                         local CreditSection = credit:addSection("Credits")
                         local FFSection = credit:addSection("Fun Fact")
