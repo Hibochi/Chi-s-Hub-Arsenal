@@ -1055,11 +1055,11 @@
                         local tracersOn
                         local espPaused = false
 
-                        _G.tracersColor = Color3.fromRGB(255, 80, 60)
-                        _G.playerNamesColor = Color3.fromRGB( 0, 255, 0)
-                        _G.boxesColor = Color3.fromRGB(255, 0, 0)
-                        _G.friendlyColor = Color3.fromRGB(0, 255, 0)
-                        _G.enemyColor = Color3.fromRGB(255 ,0 ,0)
+                        tracersColor = Color3.fromRGB(255, 80, 60)
+                        playerNamesColor = Color3.fromRGB( 0, 255, 0)
+                        boxesColor = Color3.fromRGB(255, 0, 0)
+                        friendlyColor = Color3.fromRGB(0, 255, 0)
+                        enemyColor = Color3.fromRGB(255 ,0 ,0)
                         local updateTime = 1
                         local autoUpdate = false
                         local useDefaultTeamColors = false
